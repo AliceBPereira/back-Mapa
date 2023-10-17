@@ -1,0 +1,31 @@
+{
+  "name": "backend-alice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsup src --out-dir build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@rocketseat/eslint-config": "2.1.0",
+    "@types/node": "^20.5.7",
+    "eslint": "8.48.0",
+    "prisma": "5.2.0",
+    "tsup": "^7.2.0",
+    "tsx": "^3.12.7",
+    "typescript": "^5.2.2"
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.4.0",
+    "@prisma/client": "5.2.0",
+    "bcryptjs": "2.4.3",
+    "dayjs": "1.11.10",
+    "dotenv": "16.3.1",
+    "fastify": "^4.22.1"
+  }
+}
