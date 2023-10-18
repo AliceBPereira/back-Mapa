@@ -15,4 +15,36 @@ export const caprinoOvinoRoutes = (app: FastifyInstance) => {
       const caprinoOvino = await prisma.caprinoOvino.create({ data: body });
       return { caprinoOvino };
     });
+    
+  app.delete("/caprinoOvinos/delete/:id", async (request) => {
+    const { id } = request.params as { id: string };
+    const existingcaprinoOvino = await prisma.caprinoOvino.findUnique({
+      where: { id },
+    });
+    if (!existingcaprinoOvino) {
+      return { message: "caprinoOvino não encontrado" };
+    }
+    const deletedcaprinoOvino = await prisma.caprinoOvino.delete({
+      where: { id },
+    });
+    return { cafe: deletedcaprinoOvino };
+  });
+
+  app.put("/caprinoOvinos/atualizar/:id", async (request) => {
+    const { id } = request.params as { id: string };
+    const body = request.body as caprinoOvinoPostData; 
+    const existingcaprinoOvino = await prisma.caprinoOvino.findUnique({
+      where: { id },
+    });
+    if (!existingcaprinoOvino) {
+      return { message: "caprinoOvino não encontrado" };
+    }
+
+    const updatedcaprinoOvino = await prisma.caprinoOvino.update({
+      where: { id },
+      data: body,
+    });
+
+    return { cafe: updatedcaprinoOvino };
+  });
   };
