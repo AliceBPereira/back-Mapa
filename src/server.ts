@@ -5,6 +5,8 @@ import { milhoRoutes } from './routes/milhos';
 import { gadosCortesRoutes } from './routes/gadosCortes';
 import { gadosLeitesRoutes } from './routes/gadosLeites';
 import { caprinoOvinoRoutes } from './routes/caprinoOvinos';
+import { predioRoutes } from './routes/predios';
+import { areaCampusRoutes } from './routes/areaCampus';
 
 export const app = fastify()
 app.register(cors)
@@ -15,6 +17,8 @@ milhoRoutes(app);
 gadosCortesRoutes(app);
 gadosLeitesRoutes(app);
 caprinoOvinoRoutes(app);
+predioRoutes(app);
+areaCampusRoutes(app);
 
 app
   .listen({

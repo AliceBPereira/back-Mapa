@@ -62,3 +62,13 @@ model CaprinoOvino {
   area_ha       Decimal
   localizacao   Json
 }
+
+model Predio {
+  id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
+  nome        String
+  localizacao  Float[]
+}
+model AreaCampus {
+  id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
+  localizacao   Json
+}
