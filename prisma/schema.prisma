@@ -9,9 +9,12 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
+enum StatusCafe {
+  PLANTADO
+  COLHIDO
+}
 model Cafe {
-  id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
+  id            String     @id @default(uuid()) // TODOS TEM QUE TER UM ID
   talhao        String
   cultivar      String
   area_ha       Decimal
@@ -21,7 +24,9 @@ model Cafe {
   ano_plantio   Int
   ult_colheita  DateTime
   prox_colheita DateTime
+  status        StatusCafe
   localizacao   Json
+  created_at    DateTime   @default(now())
 }
 model Milho {
   id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
@@ -64,11 +69,13 @@ model CaprinoOvino {
 }
 
 model Predio {
-  id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
+  id          String @id @default(uuid()) // TODOS TEM QUE TER UM ID
   nome        String
-  localizacao  Float[]
+  localizacao Json
 }
 model AreaCampus {
   id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
   localizacao   Json
 }
+
+
