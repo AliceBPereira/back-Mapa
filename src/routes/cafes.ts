@@ -3,26 +3,91 @@ import { prisma } from "../lib/prisma";
 import cors from "@fastify/cors";
 import { cafePostData } from "../models/cafe";
 
+interface QueryParams {
+  ano_plantio: number;
+  talhao: string;
+  status: 'COLHIDO' | 'PLANTADO';
+  estande: number;
+}
+
 export const cafeRoutes = (app: FastifyInstance) => {
-  app.get("/cafes", async () => {
-    const cafes = await prisma.cafe.findMany();
+  app.get("/cafes", async (request) => {
+
+    const query = request.query as QueryParams;
+
+    const cafes = await prisma.cafe.findMany({
+      where: {
+        ano_plantio: query.ano_plantio,
+        talhao: query.talhao,
+        status: query.status,
+        estande: query.estande,
+      }
+    });
     return { cafes };
   });
 
-  app.post("/cafes", async (request) => {
+  app.get("/cafes/plantados", async () => {
+    const cafes = await prisma.cafe.findMany({
+      where: {
+        status: 'PLANTADO'
+      }
+    });
+    return { cafes };
+  });
+
+  app.patch("/cafes/:id/colher", async (request, reply) => {
+    const { id } = request.params as { id: string }
+
+    const cafe = await prisma.cafe.findUnique({
+      where: { id },
+    })
+
+    if (!cafe) {
+      reply.status(400).send()
+    }
+
+    const cafes = await prisma.cafe.update({
+      where: { id },
+      data: { status: 'COLHIDO' }
+    });
+    return { cafes };
+  });
+
+  app.post("/cafes", async (request, reply) => {
     const body = request.body as cafePostData;
-    const cafe = await prisma.cafe.create({ data: body });
+
+    const cafeAnterior = await prisma.cafe.findFirst({
+      orderBy: { prox_colheita: 'desc' },
+      where: { talhao: body.talhao }
+    })
+
+    if(cafeAnterior?.status === 'PLANTADO' && body.status === 'PLANTADO') {
+      return reply.status(400).send({ message: 'Esse talhão já está plantado.'})
+    }
+  
+    const ultimaColheita = body.ult_colheita || cafeAnterior?.prox_colheita || new Date().toISOString()
+    const localizacao = body.localizacao || cafeAnterior?.localizacao
+
+    if(!localizacao) {
+      return reply.status(400).send({ message: 'Uma localização precisa ser passada'})
+    }
+
+    const cafe = await prisma.cafe.create({ data: {
+      ...body,
+      ult_colheita: ultimaColheita,
+      localizacao: localizacao,  
+    }});
     return { cafe };
   });
 
-  app.delete("/cafes/delete/:id", async (request) => {
+  app.delete("/cafes/delete/:id", async (request, reply) => {
     const { id } = request.params as { id: string };
     const existingCafe = await prisma.cafe.findUnique({
       where: { id },
     });
 
     if (!existingCafe) {
-      return { message: "Café não encontrado" };
+      return reply.status(400).send()
     }
 
     // Exclui o café se for encontrado
@@ -33,7 +98,7 @@ export const cafeRoutes = (app: FastifyInstance) => {
     return { cafe: deletedCafe };
   });
 
-  app.put("/cafes/atualizar/:id", async (request) => {
+  app.put("/cafes/atualizar/:id", async (request, reply) => {
     const { id } = request.params as { id: string };
     const body = request.body as cafePostData; // Alterei a variável de 'updatedCafe' para 'body'
 
@@ -43,7 +108,7 @@ export const cafeRoutes = (app: FastifyInstance) => {
     });
 
     if (!existingCafe) {
-      return { message: "Café não encontrado" };
+      return reply.status(400).send()
     }
 
     // Atualiza o café se for encontrado

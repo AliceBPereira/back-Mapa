@@ -1,4 +1,4 @@
 export interface predioPostData {         
     nome: string        
-    localizacao: number[]
+    localizacao: object
   }
