@@ -8,5 +8,8 @@ export interface milhoPostData {
     prod_2020: number
     plantio_21: string
     plantio_20: string
+    status: 'PLANTADO' | 'COLHIDO';
+    ult_colheita: string;
+  prox_colheita: string;
     localizacao: object
   }

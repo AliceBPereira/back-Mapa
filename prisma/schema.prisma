@@ -13,6 +13,11 @@ enum StatusCafe {
   PLANTADO
   COLHIDO
 }
+enum StatusMilho {
+  PLANTADO
+  COLHIDO
+}
+
 model Cafe {
   id            String     @id @default(uuid()) // TODOS TEM QUE TER UM ID
   talhao        String
@@ -28,6 +33,7 @@ model Cafe {
   localizacao   Json
   created_at    DateTime   @default(now())
 }
+
 model Milho {
   id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
   talhao        String
@@ -39,8 +45,13 @@ model Milho {
   prod_2020     Int
   plantio_21    String
   plantio_20    String
+  ult_colheita  DateTime
+  prox_colheita DateTime
+  status        StatusMilho
   localizacao   Json
+  created_at    DateTime   @default(now())
 }
+
 model GadoCorte {
   id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
   Nome_pasto    String
