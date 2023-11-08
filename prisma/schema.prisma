@@ -30,6 +30,7 @@ model Cafe {
   ult_colheita  DateTime
   prox_colheita DateTime
   status        StatusCafe
+  quantidade_colhida Int
   localizacao   Json
   created_at    DateTime   @default(now())
 }
