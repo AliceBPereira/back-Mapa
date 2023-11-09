@@ -31,7 +31,7 @@ model Cafe {
   prox_colheita DateTime
   status        StatusCafe
   quantidade_colhida Int
-  localizacao   Json
+  localizacao   Json?
   created_at    DateTime   @default(now())
 }
 
