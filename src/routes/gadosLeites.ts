@@ -4,7 +4,21 @@ import { gadoLeitePostData } from '../models/gadoLeite';
 
 
 export const gadosLeitesRoutes = (app: FastifyInstance) => {
+  app.get("/gadosLeite/:id", async (request, reply) => {
+    const { id } = request.params as { id: string };
   
+    const gadoLeite = await prisma.gadoLeite.findUnique({
+      where: { id },
+    });
+  
+    if (!gadoLeite) {
+      reply.status(404).send({ message: 'Gado Corte não encontrado.' });
+      return;
+    }
+  
+    return { gadoLeite };
+  });
+
     app.get('/gadosLeites', async () => {
         const gadosLeite = await prisma.gadoLeite.findMany()
       

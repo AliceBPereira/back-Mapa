@@ -4,6 +4,20 @@ import cors from "@fastify/cors";
 import { predioPostData } from "../models/predio";
 
 export const predioRoutes = (app: FastifyInstance) => {
+  app.get("/predios/:id", async (request, reply) => {
+    const { id } = request.params as { id: string };
+  
+    const predio = await prisma.predio.findUnique({
+      where: { id },
+    });
+  
+    if (!predio) {
+      reply.status(404).send({ message: 'Gado Corte não encontrado.' });
+      return;
+    }
+  
+    return { predio };
+  });
   app.get("/predios", async () => {
     const predios = await prisma.predio.findMany();
     return { predios };

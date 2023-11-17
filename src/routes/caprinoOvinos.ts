@@ -4,7 +4,20 @@ import { caprinoOvinoPostData } from '../models/caprinoOvino';
 
 
 export const caprinoOvinoRoutes = (app: FastifyInstance) => {
+  app.get("/caprinoOvinos/:id", async (request, reply) => {
+    const { id } = request.params as { id: string };
   
+    const caprinoOvino = await prisma.caprinoOvino.findUnique({
+      where: { id },
+    });
+  
+    if (!caprinoOvino) {
+      reply.status(404).send({ message: 'Café não encontrado.' });
+      return;
+    }
+  
+    return { caprinoOvino };
+  });
     app.get('/caprinoOvinos', async () => {
       const caprinoOvinos = await prisma.caprinoOvino.findMany();
       return { caprinoOvinos };

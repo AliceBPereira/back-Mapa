@@ -6,4 +6,5 @@ export interface gadoLeitePostData {
     Estagio: string 
     Pastejo: string
     localizacao: object
+    
   }

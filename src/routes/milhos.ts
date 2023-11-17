@@ -12,6 +12,20 @@ interface QueryParams {
 
 export const milhoRoutes = (app: FastifyInstance) => {
   
+  app.get("/milhos/:id", async (request, reply) => {
+    const { id } = request.params as { id: string };
+  
+    const milho = await prisma.milho.findUnique({
+      where: { id },
+    });
+  
+    if (!milho) {
+      reply.status(404).send({ message: 'Café não encontrado.' });
+      return;
+    }
+  
+    return { milho };
+  });
     app.get('/milhos', async (request) => {
       
       const query = request.query as QueryParams;

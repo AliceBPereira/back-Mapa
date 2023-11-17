@@ -34,6 +34,20 @@ export const cafeRoutes = (app: FastifyInstance) => {
     });
     return { cafes };
   });
+  app.get("/cafes/:id", async (request, reply) => {
+    const { id } = request.params as { id: string };
+  
+    const cafe = await prisma.cafe.findUnique({
+      where: { id },
+    });
+  
+    if (!cafe) {
+      reply.status(404).send({ message: 'Café não encontrado.' });
+      return;
+    }
+  
+    return { cafe };
+  });
 
   app.patch("/cafes/:id/colher", async (request, reply) => {
     const { id } = request.params as { id: string }
