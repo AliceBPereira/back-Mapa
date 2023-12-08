@@ -49,6 +49,7 @@ model Milho {
   ult_colheita  DateTime
   prox_colheita DateTime
   status        StatusMilho
+  quantidade_colhida Int?
   localizacao   Json
   created_at    DateTime   @default(now())
 }

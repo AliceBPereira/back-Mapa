@@ -11,5 +11,6 @@ export interface milhoPostData {
     status: 'PLANTADO' | 'COLHIDO';
     ult_colheita: string;
   prox_colheita: string;
+  quantidade_colhida:number
     localizacao: object
   }

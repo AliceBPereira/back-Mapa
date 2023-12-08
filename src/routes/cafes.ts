@@ -11,6 +11,31 @@ interface QueryParams {
 }
 
 export const cafeRoutes = (app: FastifyInstance) => {
+  app.get("/cafes/last", async (request) => {
+
+    const query = request.query as QueryParams;
+
+    const cafes = await prisma.cafe.findMany({
+      where: {
+        ano_plantio: query.ano_plantio,
+        talhao: query.talhao,
+        status: query.status,
+        estande: query.estande,
+      }
+    });
+
+    const ultimoCafePorNome = cafes.reduce((acc, cafe) => {
+      if (!acc[cafe.talhao] || cafe.ano_plantio >= acc[cafe.talhao].ano_plantio) {
+        acc[cafe.talhao] = cafe;
+      }
+      return acc;
+    }, {});
+
+    const resultado = Object.values(ultimoCafePorNome);
+
+    return { cafes: resultado };
+  });
+
   app.get("/cafes", async (request) => {
 
     const query = request.query as QueryParams;
