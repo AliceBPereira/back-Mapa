@@ -4,7 +4,7 @@ import { gadoCortePostData } from '../models/gadoCorte';
 
 
 export const gadosCortesRoutes = (app: FastifyInstance) => {
-  app.get("/gadosCorte/:id", async (request, reply) => {
+  app.get("/gadosCortes/:id", async (request, reply) => {
     const { id } = request.params as { id: string };
   
     const gadoCorte = await prisma.gadoCorte.findUnique({
@@ -18,15 +18,15 @@ export const gadosCortesRoutes = (app: FastifyInstance) => {
   
     return { gadoCorte };
   });
-    app.get('/gadosCorte', async () => {
-        const gadosCorte = await prisma.gadoCorte.findMany()
+    app.get('/gadosCortes', async () => {
+        const gadosCortes = await prisma.gadoCorte.findMany()
       
         return {
-          gadosCorte
+          gadosCortes
         }
       })
       
-      app.post('/gadosCorte', async (request) => {
+      app.post('/gadosCortes', async (request) => {
         const body = request.body as gadoCortePostData
       
         const gadoCorte = await prisma.gadoCorte.create({

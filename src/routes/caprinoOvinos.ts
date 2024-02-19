@@ -12,7 +12,7 @@ export const caprinoOvinoRoutes = (app: FastifyInstance) => {
     });
   
     if (!caprinoOvino) {
-      reply.status(404).send({ message: 'Café não encontrado.' });
+      reply.status(404).send({ message: 'caprinoOvino não encontrado.' });
       return;
     }
   
