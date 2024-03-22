@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -9,34 +6,26 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-enum StatusCafe {
-  PLANTADO
-  COLHIDO
-}
-enum StatusMilho {
-  PLANTADO
-  COLHIDO
-}
 
 model Cafe {
-  id            String     @id @default(uuid()) // TODOS TEM QUE TER UM ID
-  talhao        String
-  cultivar      String
-  area_ha       Decimal
-  espacament    String
-  estande       Int
-  n_de_plantas  Int
-  ano_plantio   Int
-  ult_colheita  DateTime
-  prox_colheita DateTime
-  status        StatusCafe
+  id                 String     @id @default(uuid())
+  talhao             String
+  cultivar           String
+  area_ha            Decimal
+  espacament         String
+  estande            Int
+  n_de_plantas       Int
+  ano_plantio        Int
+  ult_colheita       DateTime
+  prox_colheita      DateTime
+  localizacao        Json?
+  created_at         DateTime   @default(now())
+  status             StatusCafe
   quantidade_colhida Int
-  localizacao   Json?
-  created_at    DateTime   @default(now())
 }
 
 model Milho {
-  id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
+  id            String      @id @default(uuid())
   talhao        String
   area_ha       Decimal
   sist_plant    String
@@ -48,52 +37,62 @@ model Milho {
   prod_2020     Int
   plantio_21    String
   plantio_20    String
-  ult_colheita  DateTime
-  prox_colheita DateTime
-  status        StatusMilho
-  quantidade_colhida Int?
   localizacao   Json
-  created_at    DateTime   @default(now())
+  created_at    DateTime    @default(now())
+  status        StatusMilho
+  prox_colheita DateTime
+  ult_colheita  DateTime
+  quantidade_colhida Int
 }
 
 model GadoCorte {
-  id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
-  Nome_pasto    String
-  area_ha       Decimal
-  Forrageira    String
-  Raca          String
-  Pastejo       String
-  localizacao   Json
+  id          String  @id @default(uuid())
+  Nome_pasto  String
+  area_ha     Decimal
+  Forrageira  String
+  Raca        String
+  Pastejo     String
+  localizacao Json
 }
+
 model GadoLeite {
-  id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
-  Piquete    String
-  area_ha       Decimal
-  Forrageira    String
-  Raca          String
-  Estagio       String
-  Pastejo       String
-  localizacao   Json
+  id          String  @id @default(uuid())
+  Piquete     String
+  area_ha     Decimal
+  Forrageira  String
+  Raca        String
+  Estagio     String
+  Pastejo     String
+  localizacao Json
 }
 
 model CaprinoOvino {
-  id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
-  talhao        String
-  area_ha       Decimal
-  localizacao   Json
+  id          String  @id @default(uuid())
+  talhao      String
+  localizacao Json
+  area_ha     Decimal
 }
 
 model Predio {
-  id          String @id @default(uuid()) // TODOS TEM QUE TER UM ID
+  id          String @id @default(uuid())
   nome        String
   detalhes    String
   descricao   String
   img         String
   localizacao Json
 }
+
 model AreaCampus {
-  id            String   @id @default(uuid()) // TODOS TEM QUE TER UM ID
-  localizacao   Json
+  id          String @id @default(uuid())
+  localizacao Json
 }
 
+enum StatusCafe {
+  PLANTADO
+  COLHIDO
+}
 
+enum StatusMilho {
+  PLANTADO
+  COLHIDO
+}
