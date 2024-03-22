@@ -42,7 +42,9 @@ model Milho {
   sist_plant    String
   espacament    String
   sementes      String
-  prod_tha      Int
+  trabalho_realizado String
+  periodo       String
+  carretas      Int
   prod_2020     Int
   plantio_21    String
   plantio_20    String
@@ -84,6 +86,9 @@ model CaprinoOvino {
 model Predio {
   id          String @id @default(uuid()) // TODOS TEM QUE TER UM ID
   nome        String
+  detalhes    String
+  descricao   String
+  img         String
   localizacao Json
 }
 model AreaCampus {
