@@ -1,4 +1,7 @@
 export interface predioPostData {         
-    nome: string        
+    nome: string
+    detalhes: string
+    descricao: string
+    img: string        
     localizacao: object
   }
