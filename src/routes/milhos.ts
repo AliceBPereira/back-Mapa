@@ -25,7 +25,7 @@ export const milhoRoutes = (app: FastifyInstance) => {
       }
     });
     const ultimoMilhoPorNome = milhos.reduce((acc, milho) => {
-      if (!acc[milho.talhao] || milho.prod_tha >= acc[milho.talhao].prod_tha) {
+      if (!acc[milho.talhao] || milho.periodo >= acc[milho.talhao].prod_tha) {
         acc[milho.talhao] = milho;
       }
       return acc;
@@ -101,7 +101,7 @@ export const milhoRoutes = (app: FastifyInstance) => {
       const body = request.body as milhoPostData;
   
       const milhoAnterior = await prisma.milho.findFirst({
-        orderBy: { prod_tha: 'desc' },
+        orderBy: { periodo: 'desc' },
         where: { talhao: body.talhao }
       })
   
