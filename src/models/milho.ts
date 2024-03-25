@@ -4,7 +4,6 @@ export interface milhoPostData {
     sist_plant: string 
     espacament: string   
     sementes: string
-    prod_tha: number
     prod_2020: number
     plantio_21: string
     plantio_20: string
